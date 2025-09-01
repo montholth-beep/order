@@ -1,0 +1,121 @@
+﻿<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>แบบฟอร์มสั่งน้ำพริก</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .form-container {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 400px;
+    }
+    h1 {
+      text-align: center;
+      color: #4CAF50;
+      font-size: 24px;
+    }
+    label {
+      font-size: 16px;
+      margin-bottom: 8px;
+      display: block;
+      color: #333;
+    }
+    select, input[type="number"], input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 16px;
+      background-color: #f9f9f9;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h1>แบบฟอร์มสั่งน้ำพริก</h1>
+    <form id="orderForm">
+      <label for="type">ชนิด</label>
+      <select id="type" required>
+        <option value="กากหมู">กากหมู</option>
+        <option value="กุ้งเสียบ">กุ้งเสียบ</option>
+        <option value="กุ้งเสียบ+แมงดา">กุ้งเสียบ+แมงดา</option>
+        <option value="พริกเผา">พริกเผา</option>
+        <option value="พริกเผา+แมงดา">พริกเผา+แมงดา</option>
+        <option value="ตาแดง">ตาแดง</option>
+        <option value="ตาแดง+แมงดา">ตาแดง+แมงดา</option>
+        <option value="นรก">นรก</option>
+        <option value="นรก+แมงดา">นรก+แมงดา</option>
+        <option value="หมูกระจก">หมูกระจก</option>
+      </select>
+
+      <label for="quantity">จำนวน</label>
+      <input type="number" id="quantity" required min="1">
+
+      <label for="size">ขนาด</label>
+      <select id="size" required>
+        <option value="กระปุก">กระปุก</option>
+        <option value="กิโลกรัม">กิโลกรัม</option>
+      </select>
+
+      <label for="name">ชื่อผู้สั่ง</label>
+      <input type="text" id="name" required>
+
+      <button type="submit">สั่งซื้อ</button>
+    </form>
+  </div>
+
+  <script>
+    const form = document.getElementById('orderForm');
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      // Google Form POST URL
+      const url = 'https://docs.google.com/forms/d/e/1FAIpQLSfQjwqhtq-Czi8jpAwVCZ7WhndR48lLIH1aBvDKWIMzrCMieg/formResponse';
+
+      // สร้าง URLSearchParams พร้อม encode ค่าไทย
+      const params = new URLSearchParams();
+      params.append('entry.1632895055', document.getElementById('type').value);
+      params.append('entry.1148494972', document.getElementById('quantity').value);
+      params.append('entry.1487403736', document.getElementById('size').value);
+      params.append('entry.941177723', document.getElementById('name').value);
+
+      // สร้าง XMLHttpRequest เพื่อส่ง POST
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', url);
+      xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;charset=UTF-8');
+      xhr.send(params.toString());
+
+      alert('ส่งข้อมูลเรียบร้อยแล้ว ✅');
+      form.reset();
+    });
+  </script>
+</body>
+</html>
